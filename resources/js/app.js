@@ -1,19 +1,35 @@
-require('./bootstrap');
+import "./bootstrap"
 import $ from "jquery";
-import validate from 'jquery-validation'
+import intlTelInput from 'intl-tel-input';
+import utils from 'intl-tel-input/build/js/utils';
+
 
 $(document).ready(function () {
 
-        let pages = ["#page1", "#page2", "#page3"];
+        $(".nav-toggler").each(function (_, navToggler) {
+            var target = $(navToggler).data("target");
+            $(navToggler).on("click", function () {
+                $(target).animate({
+                    height: "toggle",
+                });
+            });
+        });
+
+        // const input = document.querySelector("#phone");
+        // let iti = intlTelInput(input, {
+        //     nationalMode: true,
+        //     utilsScript: utils,
+        // });
+
+        let pages = ["#page1", "#page2", "#page3",];
         let currentPage = 0;
 
 
         let requiredFieldsPerPage = {
-            '#page1': ['name', 'lastname', 'email', 'password', 'password_confirmation'],
-            '#page2': [],
-            '#page3': [],
+            '#page1': ['role'],
+            '#page2': ['name', 'email', 'password', 'password_confirmation'],
+            '#page3': []
         };
-
 
         function validate() {
             let hasError = false;
@@ -31,8 +47,6 @@ $(document).ready(function () {
                     field.removeClass('border-danger')
                     fieldspan.html('')
                 }
-
-
             });
 
             let password = $('#password').val();
@@ -52,7 +66,7 @@ $(document).ready(function () {
                 }
 
             }
-            if (password && !hasError ) {
+            if (password && !hasError) {
                 if (password.length < 6) {
                     $('#password').addClass('border-warning')
                     $('#password-error').html('<small class="text-warning">Passwords must be at least 6 characters</small>')
@@ -78,11 +92,33 @@ $(document).ready(function () {
                     $('#email-error').html('')
                 }
             }
+
+            let errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+            // let phoneInput = $('#phone').val();
+            // if (phoneInput) {
+            //     if (!iti.isValidNumber()) {
+            //         console.log(iti.isValidNumber() + iti.getValidationError())
+            //         let errorCode = iti.getValidationError()
+            //         $('#phone').addClass('border-warning')
+            //         $('#phone-error').html('<small class="text-warning">' + errorMap[errorCode] + '</small>')
+            //         hasError = true;
+            //     } else {
+            //         console.log(iti.isValidNumber() + iti.getValidationError())
+            //         $('#phone').removeClass('border-warning')
+            //         $('#phone-error').html('')
+            //     }
+            // }
+
+
             return hasError;
         }
 
-
         $("#form-toggle-forwards").click(function () {
+            // console.log($('#phone').val())
+            // let number = iti.getNumber();
+            //
+            // $('#phone').val(number);
             let hasError = validate()
             if (hasError === false) {
                 let nextPage = currentPage + 1;
@@ -101,20 +137,16 @@ $(document).ready(function () {
                     $("#form-toggle-submit").show()
                 }
 
-                if ($('#role').val() == 1){
+                if ($('#role').val() == 1) {
 
                 }
-                if ($('#role').val() == 2){
+                if ($('#role').val() == 2) {
 
                 }
-                if ($('#role').val() == 3){
+                if ($('#role').val() == 3) {
 
                 }
-
-
-
             }
-
 
 
         });
@@ -142,6 +174,15 @@ $(document).ready(function () {
 
         });
 
+        $(function () {
+            $(window).on('scroll', function () {
+                if ($(window).scrollTop() > 10) {
+                    $('.navbar').addClass('active');
+                } else {
+                    $('.navbar').removeClass('active');
+                }
+            });
+        });
 
     }
 )

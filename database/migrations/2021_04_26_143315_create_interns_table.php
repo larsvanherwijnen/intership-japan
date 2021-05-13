@@ -18,6 +18,7 @@ class CreateInternsTable extends Migration
             $table->timestamps();
             $table->string('profile_picture');
             $table->text('info');
+            $table->collation('skills');
             $table->string('video_link');
         });
     }

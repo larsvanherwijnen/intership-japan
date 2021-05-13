@@ -13,7 +13,6 @@
                                 <div class="card-body">
                                     <form action="{{ route('registerAdmin') }}" method="post">
                                         @csrf
-
                                         <div class="form-group">
                                             <label for="name" class="sr-only">Name</label>
                                             <input type="text" name="name" id="name" placeholder="Your name"

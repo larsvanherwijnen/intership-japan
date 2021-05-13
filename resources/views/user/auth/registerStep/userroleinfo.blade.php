@@ -1,36 +1,27 @@
 <div id="page3" style="display: none;">
-    <div id="page1">
-        <div class="form-group">
-            <input type="text" name="name" id="name" placeholder="Your name"
-                   class="form-control  rounded-0 @error('name') border-danger @enderror"
-                   value="{{ old('name') }}">
+    <div class="form-row">
+
+        <div class="form-group col-md-6">
+            <input type="text" name="about" id="about" placeholder="About"
+                   class="form-control  rounded-0"
+                   value="{{ old('about') }}">
             <div id="name-error"></div>
         </div>
-        <div class="form-group">
-            <input type="text" name="lastname" id="lastname" placeholder="Lastname"
+        <div class="form-group col-md-6">
+            <input type="text" name="teammail" id="teammail" placeholder="Teammail"
                    class="form-control  rounded-0"
-                   value="{{ old('lastname') }}">
+                   value="{{ old('teammail') }}">
             <div id="lastname-error"></div>
-        </div>
-        <div class="form-group">
-            <input type="text" name="email" id="email" placeholder="Your email"
-                   class="form-control  rounded-0"
-                   value="{{ old('email') }}">
-            <div id="email-error"></div>
-        </div>
-        <div class="form-group">
-            <input type="password" name="password" id="password"
-                   placeholder="Choose a password"
-                   class="form-control  rounded-0"
-                   value="">
-            <div id="password-error"></div>
-        </div>
-        <div class="form-group">
-            <input type="password" name="password_confirmation"
-                   id="password_confirmation" placeholder="Repeat your password"
-                   class="form-control  rounded-0"
-                   value="">
-            <div id="password_confirmation-error"></div>
         </div>
     </div>
 </div>
+{{--    <div class="form-row">--}}
+{{--        <div class="form-group col-md-6">--}}
+{{--            <select class="form-control" name="country" id="country">--}}
+{{--                <option value="">Select Country</option>--}}
+{{--                @foreach ($countries as $country)--}}
+{{--                    <option value="{{ $country }}">{{ $country }}</option>--}}
+{{--                @endforeach--}}
+{{--            </select>--}}
+{{--        </div>--}}
+{{--    </div>--}}

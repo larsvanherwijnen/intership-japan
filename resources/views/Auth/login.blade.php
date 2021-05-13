@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="background_image">
+    <div class="PageBG PageBG--login">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 min-vh-100 d-flex flex-column justify-content-center">

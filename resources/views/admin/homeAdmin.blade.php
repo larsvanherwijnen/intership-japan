@@ -14,7 +14,6 @@
             </li>
         </ul>
     </nav>
-
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -64,7 +63,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <span data-feather="file-text"></span>
-                                Social engagement
+                                Social
                             </a>
                         </li>
                         <li class="nav-item">
@@ -76,6 +75,7 @@
                     </ul>
                 </div>
             </nav>
+
         </div>
     </div>
 @endsection
