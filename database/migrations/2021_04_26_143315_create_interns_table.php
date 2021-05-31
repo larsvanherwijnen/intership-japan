@@ -15,11 +15,17 @@ class CreateInternsTable extends Migration
     {
         Schema::create('interns', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained();
+            $table->string('Nationality');
+            $table->string('livingIn');
+            $table->string('fieldOfStudies');
+            $table->string('graduated');
+            $table->string('currentlyStudying');
+            $table->string('nativeLanguages');
+            $table->string('secondsLanguages');
+            $table->string('seekingInternship');
+            $table->string('openForEmployment');
             $table->timestamps();
-            $table->string('profile_picture');
-            $table->text('info');
-            $table->collation('skills');
-            $table->string('video_link');
         });
     }
 

@@ -9,5 +9,20 @@ class Intern extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'Nationality',
+        'livingIn',
+        'fieldOfStudies',
+        'graduated',
+        'currentlyStudying',
+        'nativeLanguages',
+        'secondsLanguages',
+        'seekingInternship',
+        'openForEmployment',
+    ];
+
+    public function user(){
+        return $this->hasOne(User::class);
+    }
 
 }

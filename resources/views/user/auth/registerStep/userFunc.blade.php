@@ -1,6 +1,6 @@
 
 
-<div id="page1" >
+<div id="page2" style="display: none;">
     <div class="form-group">
         <label for="role">Choose your function</label>
         <select class="form-control" id="role" name="role">
@@ -9,5 +9,6 @@
             <option value="2">Company</option>
             <option value="3">Educator</option>
         </select>
+        <div id="role-error"></div>
     </div>
 </div>

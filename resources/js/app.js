@@ -1,4 +1,4 @@
-import "./bootstrap"
+import 'bootstrap'
 import $ from "jquery";
 import intlTelInput from 'intl-tel-input';
 import utils from 'intl-tel-input/build/js/utils';
@@ -6,29 +6,33 @@ import utils from 'intl-tel-input/build/js/utils';
 
 $(document).ready(function () {
 
-        $(".nav-toggler").each(function (_, navToggler) {
-            var target = $(navToggler).data("target");
-            $(navToggler).on("click", function () {
-                $(target).animate({
-                    height: "toggle",
-                });
+        $(function () {
+            $(window).on('scroll', function () {
+                if ($(window).scrollTop() > 10) {
+                    $('.navbar').addClass('active');
+                } else {
+                    $('.navbar').removeClass('active');
+                }
             });
         });
 
-        // const input = document.querySelector("#phone");
-        // let iti = intlTelInput(input, {
-        //     nationalMode: true,
-        //     utilsScript: utils,
-        // });
 
-        let pages = ["#page1", "#page2", "#page3",];
+        const input = document.querySelector("#phone");
+        let iti = intlTelInput(input, {
+            nationalMode: true,
+            utilsScript: utils,
+        });
+
+        let pages = ["#page1", "#page2", "#page3", "#page4", "#page5"];
         let currentPage = 0;
 
 
         let requiredFieldsPerPage = {
-            '#page1': ['role'],
-            '#page2': ['name', 'email', 'password', 'password_confirmation'],
-            '#page3': []
+            '#page1': ['name', 'lastname', 'email', 'phone', 'password', 'password_confirmation'],
+            '#page2': ['role'],
+            '#page3': ['nationality', 'Currentlyliving', 'field', 'graduated', 'nativelanguage',],
+            '#page4': ['companyname'],
+            '#page5': [],
         };
 
         function validate() {
@@ -93,35 +97,46 @@ $(document).ready(function () {
                 }
             }
 
-            let errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+            let errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long"];
 
-            // let phoneInput = $('#phone').val();
-            // if (phoneInput) {
-            //     if (!iti.isValidNumber()) {
-            //         console.log(iti.isValidNumber() + iti.getValidationError())
-            //         let errorCode = iti.getValidationError()
-            //         $('#phone').addClass('border-warning')
-            //         $('#phone-error').html('<small class="text-warning">' + errorMap[errorCode] + '</small>')
-            //         hasError = true;
-            //     } else {
-            //         console.log(iti.isValidNumber() + iti.getValidationError())
-            //         $('#phone').removeClass('border-warning')
-            //         $('#phone-error').html('')
-            //     }
-            // }
+            let phoneInput = $('#phone').val();
+            if (phoneInput) {
+                if (!iti.isValidNumber()) {
+                    let errorCode = iti.getValidationError()
+                    if (errorCode > 3 || errorCode < 0) {
+                        errorCode = 3;
+                    }
+                    $('#phone').addClass('border-warning')
+                    $('#phone-error').html('<small class="text-warning">' + errorMap[errorCode] + '</small>')
+                    hasError = true;
+                } else {
+                    $('#phone').removeClass('border-warning')
+                    $('#phone-error').html('')
+                }
+            }
 
 
             return hasError;
         }
 
         $("#form-toggle-forwards").click(function () {
-            // console.log($('#phone').val())
-            // let number = iti.getNumber();
-            //
-            // $('#phone').val(number);
+            let number = iti.getNumber();
+            $('#phone').val(number);
             let hasError = validate()
             if (hasError === false) {
+
                 let nextPage = currentPage + 1;
+
+                if ($('#role').val() == 2) {
+
+                    console.log($('#role').val(), '2')
+                    nextPage = currentPage + 2;
+                }
+
+                if (($('#role').val() == 3)) {
+                    console.log($('#role').val(), '3')
+                    nextPage = currentPage + 3;
+                }
 
                 $(pages[currentPage]).hide();
                 $(pages[nextPage]).show();
@@ -136,18 +151,15 @@ $(document).ready(function () {
                     $("#form-toggle-forwards").hide()
                     $("#form-toggle-submit").show()
                 }
-
-                if ($('#role').val() == 1) {
-
+                if (currentPage == 3) {
+                    $("#form-toggle-forwards").hide()
+                    $("#form-toggle-submit").show()
                 }
-                if ($('#role').val() == 2) {
-
-                }
-                if ($('#role').val() == 3) {
-
+                if (currentPage == 4) {
+                    $("#form-toggle-forwards").hide()
+                    $("#form-toggle-submit").show()
                 }
             }
-
 
         });
 
@@ -157,6 +169,18 @@ $(document).ready(function () {
                 event.preventDefault();
             }
             let nextPage = currentPage - 1;
+
+            if ($('#role').val() == 2) {
+
+                console.log($('#role').val(), '2')
+                nextPage = currentPage - 2;
+            }
+
+            if (($('#role').val() == 3)) {
+                console.log($('#role').val(), '3')
+                nextPage = currentPage - 3;
+            }
+
 
             $(pages[currentPage]).hide();
             $(pages[nextPage]).show();
@@ -172,18 +196,32 @@ $(document).ready(function () {
                 $("#form-toggle-submit").hide()
             }
 
+            if (currentPage == 2) {
+                $("#form-toggle-forwards").show()
+                $("#form-toggle-submit").hide()
+            }
+            if (currentPage == 3) {
+                $("#form-toggle-forwards").show()
+                $("#form-toggle-submit").hide()
+            }
+            if (currentPage == 4) {
+                $("#form-toggle-forwards").show()
+                $("#form-toggle-submit").hide()
+            }
+
+
+
+
+
+
         });
 
-        $(function () {
-            $(window).on('scroll', function () {
-                if ($(window).scrollTop() > 10) {
-                    $('.navbar').addClass('active');
-                } else {
-                    $('.navbar').removeClass('active');
-                }
-            });
+        $("#form-toggle-submit").click(function (event) {
+            let hasError = validate()
+            if (hasError === true){
+                event.preventDefault();
+            }
         });
-
     }
 )
 ;

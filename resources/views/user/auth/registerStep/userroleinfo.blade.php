@@ -1,6 +1,5 @@
 <div id="page3" style="display: none;">
     <div class="form-row">
-
         <div class="form-group col-md-6">
             <input type="text" name="about" id="about" placeholder="About"
                    class="form-control  rounded-0"
@@ -15,6 +14,7 @@
         </div>
     </div>
 </div>
+
 {{--    <div class="form-row">--}}
 {{--        <div class="form-group col-md-6">--}}
 {{--            <select class="form-control" name="country" id="country">--}}

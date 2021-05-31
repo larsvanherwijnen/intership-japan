@@ -15,12 +15,13 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained();
+            $table->string('companyname');
+//            $table->text('info');
+//            $table->string('video_link');
+//            $table->string('team_email');
+            $table->boolean('verified')->default(false);
             $table->timestamps();
-            $table->string('profile_picture');
-            $table->text('info');
-            $table->string('video_link');
-            $table->string('team_email');
-            $table->boolean('verified');
         });
     }
 

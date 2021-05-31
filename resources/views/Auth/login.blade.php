@@ -35,8 +35,12 @@
                                                 <input name="remember" type="checkbox" value="Remember Me"> Remember Me
                                             </label>
                                         </div>
-                                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+                                        <input class="btn btn-primary btn-block" type="submit" value="Login">
                                     </form>
+                                    <div class="d-flex flex-column text-center px-5">
+                                        or
+                                        <a href="{{route('register')}}" class="btn btn-primary ">Sign up</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -13,11 +13,4 @@ class LogoutController extends Controller
 
         return redirect()->route('home');
     }
-
-    public function logoutAdmin()
-    {
-        auth()->logout();
-
-        return redirect()->route('loginAdmin');
-    }
 }
