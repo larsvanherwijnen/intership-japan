@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,21 +14,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 //User routes
-Route::get('/', 'App\Http\Controllers\HomeController@show')->name('home');
+Route::get('/', 'App\Http\Controllers\user\HomeController@show')->name('home');
 //auth routes
-Route::get('/register', 'App\Http\Controllers\Auth\RegisterController@showUserForm')->name('register');
-Route::post('/register', 'App\Http\Controllers\Auth\RegisterController@createUserRole');
-Route::get('/logout', 'App\Http\Controllers\Auth\LogoutController@logout')->name('logout');
+Route::get('/register', 'App\Http\Controllers\auth\RegisterController@showUserForm')->name('register');
+Route::post('/register', 'App\Http\Controllers\auth\RegisterController@createUserRole');
+Route::get('/logout', 'App\Http\Controllers\auth\LogoutController@logout')->name('logout');
 
 //profile
-Route::post('/user/{id}/profile', 'App\Http\Controllers\Auth\ProfileController@profileShow')->name('profile');
+Route::post('/user/{id}/profile', 'App\Http\Controllers\user\ProfileController@profileShow')->name('profile');
 
-Route::get('/login', 'App\Http\Controllers\Auth\LoginController@showUserLogin')->name('login');
-Route::post('/login', 'App\Http\Controllers\Auth\LoginController@login');
+Route::get('/login', 'App\Http\Controllers\auth\LoginController@showUserLogin')->name('login');
+Route::post('/login', 'App\Http\Controllers\auth\LoginController@login');
 
 //Admin routes
-Route::get('/admin', 'App\Http\Controllers\AdminController@show')->name('admin')->middleware('Auth');
+Route::group(['middleware' => ['auth','admin']], function (){
+    Route::get('/admin', 'App\Http\Controllers\admin\AdminController@show')->name('admin');
+    Route::get('/admin/interns', 'App\Http\Controllers\admin\InternController@show')->name('adminInterns');
+    Route::get('/admin/companies', 'App\Http\Controllers\admin\CompaniesController@show')->name('adminCompanies');
+    Route::get('/admin/educators', 'App\Http\Controllers\admin\EducatorController@show')->name('adminEducators');
+    Route::get('/admin/approvals', 'App\Http\Controllers\admin\ApprovalController@show')->name('adminApprovals');
+    Route::post('/admin/approve/{id}', 'App\Http\Controllers\admin\ApprovalController@update')->name('approve');
+});
+
+
+
 //Auth routes
-Route::post('/admin/register', 'App\Http\Controllers\Auth\RegisterController@createAdmin');
-Route::get('/admin/register', 'App\Http\Controllers\Auth\RegisterController@showAdminForm')->name('registerAdmin');
+Route::get('/admin/register', 'App\Http\Controllers\auth\RegisterController@showAdminForm')->name('registerAdmin');
+Route::post('/admin/register', 'App\Http\Controllers\auth\RegisterController@createAdmin');

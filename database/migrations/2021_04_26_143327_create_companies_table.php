@@ -16,10 +16,14 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained();
-            $table->string('companyname');
-//            $table->text('info');
-//            $table->string('video_link');
-//            $table->string('team_email');
+            $table->string('comp_name');
+            $table->string('comp_email');
+            $table->string('comp_contact_name');
+            $table->string('comp_contact_email');
+            $table->string('address')->nullable();
+            $table->string('image')->nullable();;
+            $table->text('about')->nullable();
+            $table->string('video_link')->nullable();
             $table->boolean('verified')->default(false);
             $table->timestamps();
         });

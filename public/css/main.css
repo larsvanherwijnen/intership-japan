@@ -11698,3 +11698,9 @@ body, html {
 .PageBG--login {
   background-image: url(/images/adminloginBG.jpg?02ad6a1742131657d59104ebe39bddc6);
 }
+
+.badge {
+  padding: 5px 8px;
+  border-radius: 50%;
+  background: lightgray;
+}

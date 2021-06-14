@@ -42,7 +42,7 @@ class User extends Authenticatable
 
     public function intern()
     {
-        return $this->hasOne(Intern::class);
+        return $this->hasOne(Intern::class, 'user_id');
     }
 
     public function company()

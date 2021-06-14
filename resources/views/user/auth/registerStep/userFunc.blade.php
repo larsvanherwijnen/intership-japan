@@ -7,7 +7,7 @@
             <option selected value="0">Choose your function....</option>
             <option value="1">Intern</option>
             <option value="2">Company</option>
-            <option value="3">Educator</option>
+{{--            <option value="3">Educator</option>--}}
         </select>
         <div id="role-error"></div>
     </div>

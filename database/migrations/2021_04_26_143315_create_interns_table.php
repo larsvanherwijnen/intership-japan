@@ -16,6 +16,8 @@ class CreateInternsTable extends Migration
         Schema::create('interns', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained();
+            $table->string('image')->nullable();
+            $table->string('about');
             $table->string('Nationality');
             $table->string('livingIn');
             $table->string('fieldOfStudies');

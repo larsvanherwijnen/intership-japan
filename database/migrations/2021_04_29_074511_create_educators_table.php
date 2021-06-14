@@ -16,10 +16,6 @@ class CreateEducatorsTable extends Migration
         Schema::create('educators', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('edu_name');
-            $table->string('profile_picture');
-            $table->text('info');
-            $table->string('video_link');
         });
     }
 

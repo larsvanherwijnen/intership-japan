@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\auth;
 
 use App\Models\Company;
 use App\Models\Educator;
@@ -13,16 +13,17 @@ use Illuminate\Support\Facades\Hash;
 use Monarobase\CountryList\CountryList;
 use Monarobase\CountryList\CountryListFacade;
 
-class RegisterController extends Controller
-{
-    public function showUserForm()
-    {
+class RegisterController extends Controller {
+    public function showUserForm() {
         $countries = CountryListFacade::getList('en');
         return view('user.auth.register', compact('countries'));
     }
 
-    public function createUser($request)
-    {
+    public function showAdminForm() {
+        return view('admin.auth.register');
+    }
+
+    public function createUser($request) {
         $this->validate($request, [
             'name' => 'required|max:255',
             'lastname' => 'required|max:255',
@@ -43,8 +44,7 @@ class RegisterController extends Controller
         return $createdUser;
     }
 
-    public function createUserRole(Request $request)
-    {
+    public function createUserRole(Request $request) {
         $user = $this->createUser($request);
 
         if ($request->role == 1) {
@@ -54,6 +54,8 @@ class RegisterController extends Controller
                 'field' => 'required|max:255',
                 'graduated' => 'required',
                 'nativelanguage' => 'required',
+                'about' => 'required|min:20',
+                'intern_image' => 'required|image|mimes: jpeg,png,jpg|max:2048'
             ]);
 
             $itern = Intern::create([
@@ -66,43 +68,74 @@ class RegisterController extends Controller
                 'secondsLanguages' => $request->nativelanguage,
                 'seekingInternship' => $request->field,
                 'openForEmployment' => $request->employment,
+                'about' => $request->about,
             ]);
 
+            if ($request->hasFile('intern_image')) {
+                $profile_image = $request->file('intern_image')->getClientOriginalName();
+                $request->file('intern_image')->storeAs('intern_images', $user->id . '/' . $profile_image, '');
+                $itern->update(['image' => $profile_image]);
+            } else {
+                dd('error');
+            }
+
             $user->intern()->save($itern);
+
+            return redirect()->route('userProfile', $user->id);
         }
 
         if ($request->role == 2) {
 
             $this->validate($request, [
-                'companyname' => 'required|max:255',
+                'comp_name' => 'required|max:255',
+                'comp_email' => 'required|email|max:255',
+                'comp_contact_name' => 'required|max:255',
+                'comp_contact_email' => 'required|email|max:255',
             ]);
 
             $company = Company::create([
-                'companyname' => $request->companyname,
+                'comp_name' => $request->comp_name,
+                'comp_email' => $request->comp_email,
+                'comp_contact_name' => $request->comp_contact_name,
+                'comp_contact_email' => $request->comp_contact_email,
                 'verified' => false,
             ]);
+
+            if ($request->hasFile('comp_image')) {
+                $profile_image = $request->file('comp_image')->getClientOriginalName();
+                $request->file('comp_image')->storeAs('companies_images', $user->id . '/' . $profile_image, '');
+                $company->update(['image' => $profile_image]);
+            } else {
+                dd('test');
+            }
 
             $user->company()->save($company);
         }
 
-        if ($request->role == 3) {
-            $this->validate($request, [
-
-            ]);
-
-            $educator = Educator::create([
-
-            ]);
-
-            $user->educator()->save($educator);
-        }
-
+//        if ($request->role == 3) {
+//            $this->validate($request, [
+//
+//            ]);
+//
+//            $educator = Educator::create([
+//
+//            ]);
+//
+//            if ($request->hasFile('image')) {
+//                $profile_image = $request->file('image')->getClientOriginalName();
+//                $request->file('image')->storeAs('educators_images', $user->id . '/' . $profile_image, '');
+//                $educator->update(['image' => $profile_image]);
+//            } else {
+//                dd('test');
+//            }
+//
+//            $user->educator()->save($educator);
+//        }
 
     }
 
 
-    public function createAdmin(Request $request)
-    {
+    public function createAdmin(Request $request) {
         $this->validate($request, [
             'name' => 'required|max:255',
             'lastname' => 'required|max:255',
@@ -117,6 +150,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
             'is_admin' => true,
         ]);
+
 
 
         return redirect()->route('admin');

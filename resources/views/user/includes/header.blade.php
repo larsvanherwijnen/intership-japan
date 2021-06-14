@@ -11,6 +11,7 @@
                                 class="sr-only">(current)</span></a></li>
                     <li class="nav-item"><a href="#" class="nav-link text-uppercase font-weight-bold">Mission</a></li>
                     @if(Auth::check())
+                        <li class="nav-item">  <a href="{{route('logout')}}" class="nav-link text-uppercase font-weight-bold">logout</a></li>
                         <li class="nav-item"><a href="{{route("profile", ['id' => Auth::user()->id ])}}" class="nav-link text-uppercase font-weight-bold"><i class="fas fa-user"></i> Profile</a></li>
                     @else
                         <li class="nav-item"><a href="{{route("login")}}" class="nav-link text-uppercase font-weight-bold">Login or sign up</a></li>

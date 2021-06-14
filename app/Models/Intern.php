@@ -19,10 +19,11 @@ class Intern extends Model
         'secondsLanguages',
         'seekingInternship',
         'openForEmployment',
+        'about',
+        'image'
     ];
 
     public function user(){
         return $this->hasOne(User::class);
     }
-
 }

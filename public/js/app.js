@@ -36,14 +36,13 @@ jquery__WEBPACK_IMPORTED_MODULE_1___default()(document).ready(function () {
     nationalMode: true,
     utilsScript: (intl_tel_input_build_js_utils__WEBPACK_IMPORTED_MODULE_3___default())
   });
-  var pages = ["#page1", "#page2", "#page3", "#page4", "#page5"];
+  var pages = ["#page1", "#page2", "#page3", "#page5"];
   var currentPage = 0;
   var requiredFieldsPerPage = {
     '#page1': ['name', 'lastname', 'email', 'phone', 'password', 'password_confirmation'],
-    '#page2': ['role'],
-    '#page3': ['nationality', 'Currentlyliving', 'field', 'graduated', 'nativelanguage'],
-    '#page4': ['companyname'],
-    '#page5': []
+    '#page2': ['nationality', 'Currentlyliving', 'field', 'graduated', 'nativelanguage', 'about', 'image'],
+    '#page3': ['comp_name', 'comp_email', 'comp_contact_name', 'comp_contact_email'],
+    '#page4': []
   };
 
   function validate() {
@@ -108,6 +107,32 @@ jquery__WEBPACK_IMPORTED_MODULE_1___default()(document).ready(function () {
       }
     }
 
+    var filledInCompEmailAdres = jquery__WEBPACK_IMPORTED_MODULE_1___default()('#comp_email').val();
+
+    if (filledInCompEmailAdres) {
+      if (!emailFormat.test(filledInCompEmailAdres)) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#email').addClass('border-warning');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#email-error').html('<small class="text-warning">The input is not a email</small>');
+        hasError = true;
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#email').removeClass('border-warning');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#email-error').html('');
+      }
+    }
+
+    var filledInCompContactEmailAdres = jquery__WEBPACK_IMPORTED_MODULE_1___default()('#comp_contact_email').val();
+
+    if (filledInCompContactEmailAdres) {
+      if (!emailFormat.test(filledInCompContactEmailAdres)) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#email').addClass('border-warning');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#email-error').html('<small class="text-warning">The input is not a email</small>');
+        hasError = true;
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#email').removeClass('border-warning');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#email-error').html('');
+      }
+    }
+
     var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long"];
     var phoneInput = jquery__WEBPACK_IMPORTED_MODULE_1___default()('#phone').val();
 
@@ -131,93 +156,129 @@ jquery__WEBPACK_IMPORTED_MODULE_1___default()(document).ready(function () {
     return hasError;
   }
 
-  jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-forwards").click(function () {
-    var number = iti.getNumber();
-    jquery__WEBPACK_IMPORTED_MODULE_1___default()('#phone').val(number);
-    var hasError = validate();
-
-    if (hasError === false) {
-      var nextPage = currentPage + 1;
-
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val() == 2) {
-        console.log(jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val(), '2');
-        nextPage = currentPage + 2;
-      }
-
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val() == 3) {
-        console.log(jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val(), '3');
-        nextPage = currentPage + 3;
-      }
-
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()(pages[currentPage]).hide();
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()(pages[nextPage]).show();
-      currentPage = nextPage;
-
-      if (currentPage == 1) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-backwards").show();
-      }
-
-      if (currentPage == 2) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-forwards").hide();
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").show();
-      }
-
-      if (currentPage == 3) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-forwards").hide();
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").show();
-      }
-
-      if (currentPage == 4) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-forwards").hide();
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").show();
-      }
-    }
-  });
-  jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-backwards").click(function (event) {
-    if (currentPage == 0 || 1) {
-      event.preventDefault();
+  var nextPage = currentPage + 1;
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()("#role").change(function () {
+    if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val() == 0) {
+      currentPage = 0;
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page2").hide();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page3").hide();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page4").hide();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").hide();
+      nextPage = currentPage + 1;
     }
 
-    var nextPage = currentPage - 1;
+    if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val() == 1) {
+      currentPage = 0;
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page2").show();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page3").hide();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page4").hide();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").show();
+      nextPage = currentPage + 1;
+    }
 
     if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val() == 2) {
-      console.log(jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val(), '2');
-      nextPage = currentPage - 2;
+      currentPage = 0;
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page2").hide();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page3").show();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page4").hide();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").show();
+      nextPage = currentPage + 1;
     }
 
     if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val() == 3) {
-      console.log(jquery__WEBPACK_IMPORTED_MODULE_1___default()('#role').val(), '3');
-      nextPage = currentPage - 3;
+      currentPage = 0;
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page2").hide();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page3").hide();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#page4").show();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").show();
+      nextPage = currentPage + 1;
     }
+  }); // $("#form-toggle-forwards").click(function () {
+  //     let number = iti.getNumber();
+  //     $('#phone').val(number);
+  //     let hasError = validate()
+  //     if (hasError === false) {
+  //
+  //         let nextPage = currentPage + 1;
+  //
+  //         if ($('#role').val() == 2) {
+  //             nextPage = currentPage + 2;
+  //         }
+  //
+  //         if (($('#role').val() == 3)) {
+  //             nextPage = currentPage + 3;
+  //         }
+  //
+  //         $(pages[currentPage]).hide();
+  //         $(pages[nextPage]).show();
+  //
+  //         currentPage = nextPage;
+  //
+  //         if (currentPage == 1) {
+  //             $("#form-toggle-backwards").show()
+  //         }
+  //
+  //         if (currentPage == 2) {
+  //             $("#form-toggle-forwards").hide()
+  //             $("#form-toggle-submit").show()
+  //         }
+  //         if (currentPage == 3) {
+  //             $("#form-toggle-forwards").hide()
+  //             $("#form-toggle-submit").show()
+  //         }
+  //         if (currentPage == 4) {
+  //             $("#form-toggle-forwards").hide()
+  //             $("#form-toggle-submit").show()
+  //         }
+  //     }
+  //
+  // });
+  // $("#form-toggle-backwards").click(function (event) {
+  //     if (currentPage == 0 || 1) {
+  //         event.preventDefault();
+  //     }
+  //     let nextPage = currentPage - 1;
+  //
+  //     if ($('#role').val() == 2) {
+  //
+  //         console.log($('#role').val(), '2')
+  //         nextPage = currentPage - 2;
+  //     }
+  //
+  //     if (($('#role').val() == 3)) {
+  //         console.log($('#role').val(), '3')
+  //         nextPage = currentPage - 3;
+  //     }
+  //
+  //
+  //     $(pages[currentPage]).hide();
+  //     $(pages[nextPage]).show();
+  //
+  //     currentPage = nextPage;
+  //
+  //     if (currentPage == 0) {
+  //         $("#form-toggle-backwards").hide()
+  //     }
+  //
+  //     if (currentPage == 1) {
+  //         $("#form-toggle-forwards").show()
+  //         $("#form-toggle-submit").hide()
+  //     }
+  //
+  //     if (currentPage == 2) {
+  //         $("#form-toggle-forwards").show()
+  //         $("#form-toggle-submit").hide()
+  //     }
+  //     if (currentPage == 3) {
+  //         $("#form-toggle-forwards").show()
+  //         $("#form-toggle-submit").hide()
+  //     }
+  //     if (currentPage == 4) {
+  //         $("#form-toggle-forwards").show()
+  //         $("#form-toggle-submit").hide()
+  //     }
+  // });
 
-    jquery__WEBPACK_IMPORTED_MODULE_1___default()(pages[currentPage]).hide();
-    jquery__WEBPACK_IMPORTED_MODULE_1___default()(pages[nextPage]).show();
-    currentPage = nextPage;
-
-    if (currentPage == 0) {
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-backwards").hide();
-    }
-
-    if (currentPage == 1) {
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-forwards").show();
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").hide();
-    }
-
-    if (currentPage == 2) {
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-forwards").show();
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").hide();
-    }
-
-    if (currentPage == 3) {
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-forwards").show();
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").hide();
-    }
-
-    if (currentPage == 4) {
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-forwards").show();
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").hide();
-    }
-  });
   jquery__WEBPACK_IMPORTED_MODULE_1___default()("#form-toggle-submit").click(function (event) {
     var hasError = validate();
 
