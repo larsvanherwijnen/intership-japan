@@ -15,7 +15,7 @@ class CreateInternsTable extends Migration
     {
         Schema::create('interns', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('image')->nullable();
             $table->string('about');
             $table->string('Nationality');

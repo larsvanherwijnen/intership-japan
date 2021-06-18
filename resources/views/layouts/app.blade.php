@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,10 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    @livewireStyles
     <title>Document</title>
 </head>
 <body>
 @yield('content')
-<script type="text/javascript" src="js/app.js"></script>
+
+<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+@livewireScripts
 </body>
 </html>

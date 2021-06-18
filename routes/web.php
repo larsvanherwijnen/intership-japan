@@ -21,9 +21,13 @@ Route::get('/', 'App\Http\Controllers\user\HomeController@show')->name('home');
 Route::get('/register', 'App\Http\Controllers\auth\RegisterController@showUserForm')->name('register');
 Route::post('/register', 'App\Http\Controllers\auth\RegisterController@createUserRole');
 Route::get('/logout', 'App\Http\Controllers\auth\LogoutController@logout')->name('logout');
+Route::get('/search-interns', function (){
+    return view('user.searchIntern');
+})->name('searchInterns');
+
 
 //profile
-Route::post('/user/{id}/profile', 'App\Http\Controllers\user\ProfileController@profileShow')->name('profile');
+Route::get('/user/{id}/profile', 'App\Http\Controllers\user\UserProfileController@profileShow')->name('profile');
 
 Route::get('/login', 'App\Http\Controllers\auth\LoginController@showUserLogin')->name('login');
 Route::post('/login', 'App\Http\Controllers\auth\LoginController@login');
@@ -36,6 +40,10 @@ Route::group(['middleware' => ['auth','admin']], function (){
     Route::get('/admin/educators', 'App\Http\Controllers\admin\EducatorController@show')->name('adminEducators');
     Route::get('/admin/approvals', 'App\Http\Controllers\admin\ApprovalController@show')->name('adminApprovals');
     Route::post('/admin/approve/{id}', 'App\Http\Controllers\admin\ApprovalController@update')->name('approve');
+
+    Route::post('/admin/intern/{id}/delete', 'App\Http\Controllers\admin\InternController@delete')->name('delete');
+    Route::get('/admin/intern/{id}/edit', 'App\Http\Controllers\admin\ApprovalController@editForm')->name('edit');
+    Route::post('/admin/intern/{id}/edit', 'App\Http\Controllers\admin\ApprovalController@update');
 });
 
 

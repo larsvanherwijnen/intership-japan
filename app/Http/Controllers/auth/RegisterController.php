@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Monarobase\CountryList\CountryList;
 use Monarobase\CountryList\CountryListFacade;
 
 class RegisterController extends Controller {
@@ -39,6 +38,7 @@ class RegisterController extends Controller {
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'is_admin' => false,
+            'role_id' => $request->role,
         ]);
 
         return $createdUser;
@@ -48,7 +48,7 @@ class RegisterController extends Controller {
         $user = $this->createUser($request);
 
         if ($request->role == 1) {
-            $this->validate($request, [
+            $validation = $this->validate($request, [
                 'nationality' => 'required|max:255',
                 'Currentlyliving' => 'required|max:255',
                 'field' => 'required|max:255',
@@ -57,59 +57,66 @@ class RegisterController extends Controller {
                 'about' => 'required|min:20',
                 'intern_image' => 'required|image|mimes: jpeg,png,jpg|max:2048'
             ]);
+            if ($validation) {
+                $intern = Intern::create([
+                    'Nationality' => $request->nationality,
+                    'livingIn' => $request->Currentlyliving,
+                    'fieldOfStudies' => $request->field,
+                    'graduated' => $request->graduated,
+                    'currentlyStudying' => $request->CurrentlyStudent,
+                    'nativeLanguages' => $request->nativelanguage,
+                    'secondsLanguages' => $request->nativelanguage,
+                    'seekingInternship' => $request->field,
+                    'openForEmployment' => $request->employment,
+                    'about' => $request->about,
 
-            $itern = Intern::create([
-                'Nationality' => $request->nationality,
-                'livingIn' => $request->Currentlyliving,
-                'fieldOfStudies' => $request->field,
-                'graduated' => $request->graduated,
-                'currentlyStudying' => $request->CurrentlyStudent,
-                'nativeLanguages' => $request->nativelanguage,
-                'secondsLanguages' => $request->nativelanguage,
-                'seekingInternship' => $request->field,
-                'openForEmployment' => $request->employment,
-                'about' => $request->about,
-            ]);
+                ]);
 
-            if ($request->hasFile('intern_image')) {
-                $profile_image = $request->file('intern_image')->getClientOriginalName();
-                $request->file('intern_image')->storeAs('intern_images', $user->id . '/' . $profile_image, '');
-                $itern->update(['image' => $profile_image]);
+
+                if ($request->hasFile('intern_image')) {
+                    $profile_image = $request->file('intern_image')->getClientOriginalName();
+                    $request->file('intern_image')->storeAs('intern_images', $user->id . '/' . $profile_image, '');
+                    $intern->update(['image' => $profile_image]);
+                }
+                $user->intern()->save($intern);
             } else {
-                dd('error');
+                User::destroy($user);
             }
 
-            $user->intern()->save($itern);
 
-            return redirect()->route('userProfile', $user->id);
+
+            return redirect()->route('profile', $user->id);
         }
 
         if ($request->role == 2) {
 
-            $this->validate($request, [
+            $validation = $this->validate($request, [
                 'comp_name' => 'required|max:255',
                 'comp_email' => 'required|email|max:255',
                 'comp_contact_name' => 'required|max:255',
                 'comp_contact_email' => 'required|email|max:255',
             ]);
 
-            $company = Company::create([
-                'comp_name' => $request->comp_name,
-                'comp_email' => $request->comp_email,
-                'comp_contact_name' => $request->comp_contact_name,
-                'comp_contact_email' => $request->comp_contact_email,
-                'verified' => false,
-            ]);
+            if ($validation) {
+                $company = Company::create([
+                    'comp_name' => $request->comp_name,
+                    'comp_email' => $request->comp_email,
+                    'comp_contact_name' => $request->comp_contact_name,
+                    'comp_contact_email' => $request->comp_contact_email,
+                    'verified' => false,
+                ]);
 
-            if ($request->hasFile('comp_image')) {
-                $profile_image = $request->file('comp_image')->getClientOriginalName();
-                $request->file('comp_image')->storeAs('companies_images', $user->id . '/' . $profile_image, '');
-                $company->update(['image' => $profile_image]);
+                if ($request->hasFile('comp_image')) {
+                    $profile_image = $request->file('comp_image')->getClientOriginalName();
+                    $request->file('comp_image')->storeAs('companies_images', $user->id . '/' . $profile_image, '');
+                    $company->update(['image' => $profile_image]);
+                }
+                $user->company()->save($company);
             } else {
-                dd('test');
+                User::destroy($user);
             }
 
-            $user->company()->save($company);
+
         }
 
 //        if ($request->role == 3) {
@@ -150,7 +157,6 @@ class RegisterController extends Controller {
             'password' => Hash::make($request->password),
             'is_admin' => true,
         ]);
-
 
 
         return redirect()->route('admin');
