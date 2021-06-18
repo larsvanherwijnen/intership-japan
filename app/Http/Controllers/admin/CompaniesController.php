@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CompaniesController extends Controller
 {
     public function show() {
-        $companies = Company::all()->where('is_admin', '==', 0)->where('role_id', '==', 2);
+        $companies = Company::all()->where('is_admin', '==', 0);
         return view('admin.companies')->with('companies', $companies);
     }
 

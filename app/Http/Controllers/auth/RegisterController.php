@@ -48,7 +48,7 @@ class RegisterController extends Controller {
         $user = $this->createUser($request);
 
         if ($request->role == 1) {
-            $validation = $this->validate($request, [
+            $this->validate($request, [
                 'nationality' => 'required|max:255',
                 'Currentlyliving' => 'required|max:255',
                 'field' => 'required|max:255',
@@ -57,32 +57,27 @@ class RegisterController extends Controller {
                 'about' => 'required|min:20',
                 'intern_image' => 'required|image|mimes: jpeg,png,jpg|max:2048'
             ]);
-            if ($validation) {
-                $intern = Intern::create([
-                    'Nationality' => $request->nationality,
-                    'livingIn' => $request->Currentlyliving,
-                    'fieldOfStudies' => $request->field,
-                    'graduated' => $request->graduated,
-                    'currentlyStudying' => $request->CurrentlyStudent,
-                    'nativeLanguages' => $request->nativelanguage,
-                    'secondsLanguages' => $request->nativelanguage,
-                    'seekingInternship' => $request->field,
-                    'openForEmployment' => $request->employment,
-                    'about' => $request->about,
 
-                ]);
+            $intern = Intern::create([
+                'Nationality' => $request->nationality,
+                'livingIn' => $request->Currentlyliving,
+                'fieldOfStudies' => $request->field,
+                'graduated' => $request->graduated,
+                'currentlyStudying' => $request->CurrentlyStudent,
+                'nativeLanguages' => $request->nativelanguage,
+                'secondsLanguages' => $request->nativelanguage,
+                'seekingInternship' => $request->field,
+                'openForEmployment' => $request->employment,
+                'about' => $request->about,
+            ]);
 
-
-                if ($request->hasFile('intern_image')) {
-                    $profile_image = $request->file('intern_image')->getClientOriginalName();
-                    $request->file('intern_image')->storeAs('intern_images', $user->id . '/' . $profile_image, '');
-                    $intern->update(['image' => $profile_image]);
-                }
-                $user->intern()->save($intern);
-            } else {
-                User::destroy($user);
+            if ($request->hasFile('intern_image')) {
+                $profile_image = $request->file('intern_image')->getClientOriginalName();
+                $request->file('intern_image')->storeAs('intern_images', $user->id . '/' . $profile_image, '');
+                $intern->update(['image' => $profile_image]);
             }
 
+            $user->intern()->save($intern);
 
 
             return redirect()->route('profile', $user->id);
@@ -90,14 +85,14 @@ class RegisterController extends Controller {
 
         if ($request->role == 2) {
 
-            $validation = $this->validate($request, [
+           $this->validate($request, [
                 'comp_name' => 'required|max:255',
                 'comp_email' => 'required|email|max:255',
                 'comp_contact_name' => 'required|max:255',
                 'comp_contact_email' => 'required|email|max:255',
             ]);
 
-            if ($validation) {
+
                 $company = Company::create([
                     'comp_name' => $request->comp_name,
                     'comp_email' => $request->comp_email,
@@ -112,10 +107,8 @@ class RegisterController extends Controller {
                     $company->update(['image' => $profile_image]);
                 }
                 $user->company()->save($company);
-            } else {
-                User::destroy($user);
-            }
 
+                User::destroy($user);
 
         }
 
