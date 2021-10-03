@@ -25,8 +25,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $toVerify = Company::all()->where('verified', '==', 0)->count();
 
-        View::share('toVerify', $toVerify);
+        if (\Schema::hasTable('companies')) {
+            $toVerify = Company::all()->where('verified', '==', 0)->count();
+
+            View::share('toVerify', $toVerify);
+        }
+
     }
 }

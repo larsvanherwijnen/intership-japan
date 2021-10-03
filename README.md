@@ -1,3 +1,16 @@
+# Installation
+To get started with this project do the followingsteps.
+- Copy the .env.example file and fill in your database credentials.
+- Run "php artisan migrate --seed".
+- Run "php artisan serve".
+- The  logins for the admin account are admin@admin.com, password.
+- For all others account is the password 'password'.
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">

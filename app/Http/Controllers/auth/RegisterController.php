@@ -151,7 +151,6 @@ class RegisterController extends Controller {
             'is_admin' => true,
         ]);
 
-
         return redirect()->route('admin');
     }
 
